@@ -33,4 +33,15 @@ def index():
     return jsonify(response)
 
 
+def artist(name):
+    """ function to return artist info and songs lyrics """
+    return jsonify({'message':'working on this - will be available soon','url':f'/artist/{name}',})
+
+
+def get_song_lyrics(songlink):
+    """ function to return song lyrics """
+    return jsonify({'message':'working on this - will be available soon','url':f'/artist/{songlink}',})
+
 app.add_url_rule('/','index',index)
+app.add_url_rule('/artist/<name>','artist',artist)
+app.add_url_rule('/<songlink>','get-lyrics',get_song_lyrics)
