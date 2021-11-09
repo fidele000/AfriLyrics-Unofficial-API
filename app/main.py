@@ -1,6 +1,6 @@
 from flask import Flask,request,jsonify
 from bs4 import BeautifulSoup
-from app.utils.http import get_html
+from app.utils.http import get_html,get_african_lyrics
 from app.utils.config import AFRILYRICS_URL
 from logging import log
 app=Flask(__name__)
@@ -35,11 +35,15 @@ def index():
 
 def artist(name):
     """ function to return artist info and songs lyrics """
+    
     return jsonify({'message':'working on this - will be available soon','url':f'/artist/{name}',})
 
 
 def get_song_lyrics(songlink):
     """ function to return song lyrics """
+    suggestion,body=get_african_lyrics(AFRILYRICS_URL+songlink)
+    if body:
+        return jsonify({'body':body,'suggestions':suggestion})
     return jsonify({'message':'working on this - will be available soon','url':f'/artist/{songlink}',})
 
 app.add_url_rule('/','index',index)

@@ -26,11 +26,13 @@ def get_html(link):
 def get_african_lyrics(link):
     html = get_html(link)
     soup = BeautifulSoup(html, 'html.parser')
-    all_p = [p.text for p in soup.find(id="tracks").find(
-        class_="col-xs-12 text-md-center").findAll("p")]
-    suggestions = [s.find(class_="item-title").find('a').get_text()+" by "+str(s.find(class_="item-author").get_text()).replace("\n", "") for s in soup.findAll(
+    all_p = [ p.text for p in soup.find(id="tracks").find(class_="col-xs-12").findAll("p")]
+    suggestions = [ s.find(class_="item-title").find('a').get_text()+" by "+str(s.find(class_="item-author").get_text()).replace("\n", "") for s in soup.findAll(
         class_='item r')]
     body = ""
+
     for p in all_p:
         body += p
+
+
     return (suggestions, body)
