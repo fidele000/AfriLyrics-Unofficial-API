@@ -29,7 +29,7 @@ def index():
         })
 
     response={}
-    response['body']=items
+    response['result']=items
     return jsonify(response)
 
 
