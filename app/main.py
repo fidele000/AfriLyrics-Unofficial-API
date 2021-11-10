@@ -1,6 +1,6 @@
 from flask import Flask,request,jsonify
 from bs4 import BeautifulSoup
-from app.utils.http import get_html,get_african_lyrics
+from app.utils.http import get_html,get_african_lyrics,get_countries
 from app.utils.config import AFRILYRICS_URL
 from logging import log
 from flask_cors import CORS, cross_origin
@@ -44,6 +44,15 @@ def artist(name):
     
     return jsonify({'message':'working on this - will be available soon','url':f'/artist/{name}',})
 
+
+@cross_origin()
+def get_country_list():
+    """ get country list """
+    top_lyrics,result=get_countries()
+    
+    return jsonify({'result':result,'top_lyrics':top_lyrics})
+
+
 @cross_origin()
 def get_song_lyrics(songlink):
     """ function to return song lyrics """
@@ -52,6 +61,11 @@ def get_song_lyrics(songlink):
         return jsonify({'body':body,'suggestions':suggestion})
     return jsonify({'message':'working on this - will be available soon','url':f'/artist/{songlink}',})
 
+
+
+
+
 app.add_url_rule('/','index',index)
 app.add_url_rule('/artist/<name>','artist',artist)
+app.add_url_rule('/countries-list','country-list',get_country_list)
 app.add_url_rule('/<songlink>','get-lyrics',get_song_lyrics)
