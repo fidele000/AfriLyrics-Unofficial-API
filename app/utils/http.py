@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import random
 import re
 from .config import HEADERS
+from app.utils.config import AFRILYRICS_URL
 
 
 
@@ -24,7 +25,7 @@ def get_html(link):
         return data
 
 def get_african_lyrics(link):
-    html = get_html(link)
+    html = get_html(AFRILYRICS_URL+link)
     soup = BeautifulSoup(html, 'html.parser')
     all_p = [ p.text for p in soup.find(id="tracks").find(class_="col-xs-12").findAll("p")]
     suggestions = [ s.find(class_="item-title").find('a').get_text()+" by "+str(s.find(class_="item-author").get_text()).replace("\n", "") for s in soup.findAll(
