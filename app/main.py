@@ -24,11 +24,11 @@ def index():
 
         items.append({
             'title':item_title.getText(),
-            'link':item_title['href'].replace('https://afrikalyrics.com','https://afrilyrics.herokuapp.com'),
+            'link':item_title['href'].replace('https://afrikalyrics.com',''),
             'image':item_media['data-bg'],
             'artist':{
                 'name':item_author.getText(),
-                'link':item_author['href'].replace('https://afrikalyrics.com','https://afrilyrics.herokuapp.com')
+                'link':item_author['href'].replace('https://afrikalyrics.com','')
             }
             
         })
