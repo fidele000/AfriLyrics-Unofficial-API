@@ -3,9 +3,14 @@ from bs4 import BeautifulSoup
 from app.utils.http import get_html,get_african_lyrics
 from app.utils.config import AFRILYRICS_URL
 from logging import log
+from flask_cors import CORS, cross_origin
+
+
 app=Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
-
+@cross_origin()
 def index():
     html=get_html(AFRILYRICS_URL)
     soup=BeautifulSoup(html, 'html.parser')
@@ -33,12 +38,13 @@ def index():
     return jsonify(response)
 
 
+@cross_origin()
 def artist(name):
     """ function to return artist info and songs lyrics """
     
     return jsonify({'message':'working on this - will be available soon','url':f'/artist/{name}',})
 
-
+@cross_origin()
 def get_song_lyrics(songlink):
     """ function to return song lyrics """
     suggestion,body=get_african_lyrics(AFRILYRICS_URL+songlink)
