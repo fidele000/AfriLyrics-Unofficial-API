@@ -56,9 +56,19 @@ def get_country_list():
 @cross_origin()
 def get_song_lyrics(songlink):
     """ function to return song lyrics """
-    suggestion,body=get_african_lyrics(songlink)
+    info,body=get_african_lyrics(songlink)
+
+    results=[]
+
+    results.append(
+        {
+            'info':info,
+            'lyrics':body
+        }
+    )
+
     if body:
-        return jsonify({'body':body,'suggestions':suggestion})
+        return jsonify({'results':results})
     return jsonify({'message':'working on this - will be available soon','url':f'/artist/{songlink}',})
 
 

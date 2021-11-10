@@ -8,7 +8,7 @@ import random
 import re
 from .config import HEADERS
 from app.utils.config import AFRILYRICS_URL
-
+from logging import log
 
 
 def get_html(link):
@@ -27,16 +27,32 @@ def get_html(link):
 def get_african_lyrics(link):
     html = get_html(AFRILYRICS_URL+link)
     soup = BeautifulSoup(html, 'html.parser')
-    all_p = [ p.text for p in soup.find(id="tracks").find(class_="col-xs-12").findAll("p")]
-    suggestions = [ s.find(class_="item-title").find('a').get_text()+" by "+str(s.find(class_="item-author").get_text()).replace("\n", "") for s in soup.findAll(
-        class_='item r')]
+
+    
+
     body = ""
+    info={}
+    
+    try:
+        heading=soup.find(class_='row-col')
+        title=heading.find(class_='page-title').find('h1').text
+        artist=heading.find(class_='item-author').findAll('a')[0]
+        media=heading.find(class_='item-media-content').find('img')['data-src']
 
-    for p in all_p:
-        body += p
+        info={
+            'title':title.strip(),
+            'name':artist.text,
+            'link':artist['href'].split('https://afrikalyrics.com')[1],
+            'image':media,
+        }
 
+        for p in soup.find(id="tracks").find(class_="col-xs-12").findAll("p"):
+            body += p.getText()
+    except Exception as e:
+        pass
 
-    return (suggestions, body)
+    
+    return (info,body)
 
 
 def get_countries():
